@@ -2,7 +2,17 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabaseClient";
-import { Trash2, PlusCircle, Receipt, Wallet, CreditCard, DollarSign } from "lucide-react";
+import { Trash2, PlusCircle, Wallet, CreditCard } from "lucide-react";
+
+// ✅ Formatter for Indian Rupee
+function formatCurrency(amount) {
+  if (!amount) return "₹0";
+  return new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+    maximumFractionDigits: 0
+  }).format(amount);
+}
 
 export default function Home() {
   const [transactions, setTransactions] = useState([]);
@@ -95,22 +105,22 @@ export default function Home() {
         <div className="p-4 bg-green-100 rounded-xl shadow flex flex-col items-center">
           <Wallet className="text-green-600 mb-1" />
           <p className="text-sm">Cash In</p>
-          <p className="text-xl font-bold">₹{summary.cashIn}</p>
+          <p className="text-xl font-bold">{formatCurrency(summary.cashIn)}</p>
         </div>
         <div className="p-4 bg-blue-100 rounded-xl shadow flex flex-col items-center">
           <CreditCard className="text-blue-600 mb-1" />
           <p className="text-sm">Online In</p>
-          <p className="text-xl font-bold">₹{summary.onlineIn}</p>
+          <p className="text-xl font-bold">{formatCurrency(summary.onlineIn)}</p>
         </div>
         <div className="p-4 bg-orange-100 rounded-xl shadow flex flex-col items-center">
-          <DollarSign className="text-orange-600 mb-1" />
+          <span className="text-orange-600 mb-1 text-2xl font-bold">₹</span>
           <p className="text-sm">Expenses</p>
-          <p className="text-xl font-bold">₹{summary.expenses}</p>
+          <p className="text-xl font-bold">{formatCurrency(summary.expenses)}</p>
         </div>
         <div className="p-4 bg-yellow-100 rounded-xl shadow flex flex-col items-center">
-          <Receipt className="text-yellow-600 mb-1" />
+          <span className="text-yellow-600 mb-1 text-2xl font-bold">₹</span>
           <p className="text-sm">Closing Cash</p>
-          <p className="text-xl font-bold">₹{summary.closing}</p>
+          <p className="text-xl font-bold">{formatCurrency(summary.closing)}</p>
         </div>
       </div>
 
@@ -193,7 +203,7 @@ export default function Home() {
                   <td className="p-2">{new Date(t.date).toLocaleString()}</td>
                   <td className="p-2">{t.invoice_number || "-"}</td>
                   <td className="p-2">{t.payment_mode}</td>
-                  <td className="p-2">₹{t.amount}</td>
+                  <td className="p-2">{formatCurrency(t.amount)}</td>
                   <td className="p-2">{t.remarks}</td>
                   <td className="p-2">
                     <button
@@ -232,7 +242,7 @@ export default function Home() {
                   <td className="p-2">{e.description}</td>
                   <td className="p-2">{e.category}</td>
                   <td className="p-2">{e.payment_mode}</td>
-                  <td className="p-2">₹{e.amount}</td>
+                  <td className="p-2">{formatCurrency(e.amount)}</td>
                   <td className="p-2">
                     <button
                       onClick={() => deleteEntry("expenses", e.id, e)}
