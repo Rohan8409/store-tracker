@@ -98,7 +98,7 @@ export default function Home() {
 
   return (
     <main className="p-6 space-y-8 bg-gray-50 min-h-screen">
-      <h1 className="text-3xl font-extrabold text-gray-800">📒 Store Tracker</h1>
+      <h1 className="text-3xl font-extrabold text-gray-800">📒 Adore Stores </h1>
 
       {/* Dashboard */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
