@@ -194,45 +194,97 @@ export default function Home() {
   return (
     <main className="p-6 space-y-8 bg-gray-50 min-h-screen">
       {/* Header (no emoji/icon) */}
-      <h1 className="text-3xl font-extrabold text-gray-800">Adore Stores • vA1</h1>
+      {/* Header + Filter Toolbar (compact, right-aligned) */}
+<div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+  <h1 className="text-3xl font-extrabold text-gray-800">Adore Stores</h1>
 
-      {/* Date Filter */}
-      <div className="flex flex-wrap gap-2 items-center bg-white p-4 rounded-xl shadow">
-        <input
-          type="date"
-          className="border p-2 rounded"
-          value={startDate}
-          onChange={(e) => setStartDate(e.target.value)}
-        />
-        <input
-          type="date"
-          className="border p-2 rounded"
-          value={endDate}
-          onChange={(e) => setEndDate(e.target.value)}
-        />
-        <div className="flex flex-col sm:flex-row gap-2">
-          <button
-            onClick={() => {
-              fetchTransactions();
-              fetchExpenses();
-            }}
-            className="bg-gray-700 text-white px-4 py-2 rounded"
-          >
-            Filter
-          </button>
-          <button
-            onClick={() => {
-              setStartDate("");
-              setEndDate("");
-              fetchTransactions();
-              fetchExpenses();
-            }}
-            className="bg-gray-400 text-white px-4 py-2 rounded"
-          >
-            Clear
-          </button>
-        </div>
-      </div>
+  <div className="flex flex-wrap items-end gap-2 bg-white p-3 rounded-xl shadow md:justify-end">
+    {/* From */}
+    <label className="text-xs text-gray-600 flex flex-col">
+      From
+      <input
+        type="date"
+        className="border p-2 rounded mt-1"
+        value={startDate}
+        onChange={(e) => setStartDate(e.target.value)}
+      />
+    </label>
+
+    {/* To */}
+    <label className="text-xs text-gray-600 flex flex-col">
+      To
+      <input
+        type="date"
+        className="border p-2 rounded mt-1"
+        value={endDate}
+        onChange={(e) => setEndDate(e.target.value)}
+      />
+    </label>
+
+    {/* Presets */}
+    <div className="flex gap-2 ml-0 md:ml-2">
+      <button
+        onClick={() => {
+          // This Week preset (Mon–Sun)
+          const today = new Date();
+          const iso = (d) => d.toISOString().slice(0, 10);
+          const day = today.getDay();
+          const diffToMonday = (day === 0 ? -6 : 1) - day;
+          const monday = new Date(today);
+          monday.setDate(today.getDate() + diffToMonday);
+          const sunday = new Date(monday);
+          sunday.setDate(monday.getDate() + 6);
+          setStartDate(iso(monday));
+          setEndDate(iso(sunday));
+          setTimeout(() => { fetchTransactions(); fetchExpenses(); }, 0);
+        }}
+        className="px-3 py-2 rounded border bg-gray-100 hover:bg-gray-200 text-sm"
+      >
+        This Week
+      </button>
+      <button
+        onClick={() => {
+          // This Month preset
+          const today = new Date();
+          const iso = (d) => d.toISOString().slice(0, 10);
+          const first = new Date(today.getFullYear(), today.getMonth(), 1);
+          const last = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+          setStartDate(iso(first));
+          setEndDate(iso(last));
+          setTimeout(() => { fetchTransactions(); fetchExpenses(); }, 0);
+        }}
+        className="px-3 py-2 rounded border bg-gray-100 hover:bg-gray-200 text-sm"
+      >
+        This Month
+      </button>
+    </div>
+
+    {/* Actions */}
+    <div className="flex gap-2 ml-0 md:ml-2">
+      <button
+        onClick={() => {
+          fetchTransactions();
+          fetchExpenses();
+        }}
+        className="bg-gray-700 text-white px-4 py-2 rounded text-sm"
+      >
+        Filter
+      </button>
+      <button
+        onClick={() => {
+          setStartDate("");
+          setEndDate("");
+          fetchTransactions();
+          fetchExpenses();
+        }}
+        className="bg-gray-400 text-white px-4 py-2 rounded text-sm"
+      >
+        Clear
+      </button>
+    </div>
+  </div>
+</div>
+
 
       {/* Summary cards */}
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4">
