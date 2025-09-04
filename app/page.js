@@ -1,3 +1,6 @@
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -194,7 +197,7 @@ export default function Home() {
   return (
     <main className="p-6 space-y-8 bg-gray-50 min-h-screen">
       {/* Header (no emoji/icon) */}
-      <h1 className="text-3xl font-extrabold text-gray-800">Adore Stores</h1>
+      <h1 className="text-3xl font-extrabold text-gray-800">Adore Stores • vA1</h1>
 
       {/* Date Filter */}
       <div className="flex flex-wrap gap-2 items-center bg-white p-4 rounded-xl shadow">
