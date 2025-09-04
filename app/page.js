@@ -196,9 +196,13 @@ export default function Home() {
       {/* Header (no emoji/icon) */}
       {/* Header + Filter Toolbar (compact, right-aligned) */}
 <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-  <h1 className="text-3xl font-extrabold text-gray-800">Adore Stores</h1>
+  <h1 className="text-3xl font-extrabold text-gray-800 flex items-center gap-2">
+  <img src="/logo.svg" alt="Adore Stores logo" className="w-10 h-10 object-contain" />
+  Adore Stores
+</h1>
 
-  <div className="flex flex-wrap items-end gap-2 bg-white p-3 rounded-xl shadow md:justify-end">
+
+    <div className="flex flex-wrap items-end gap-2 bg-white p-3 rounded-xl shadow md:justify-end">
     {/* From */}
     <label className="text-xs text-gray-600 flex flex-col">
       From
